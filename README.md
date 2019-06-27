@@ -84,6 +84,12 @@ Renders a 6 [Faces](#Face) cube within a [Container](#Container). The [Cube](#Cu
 - TOP
 - BOTTOM
 
+Additionally, a shadow plane can be added after all the [Faces](#Face):
+```html
+	<div class="zoot-c3d-shadow">
+	</div>
+```
+
 Also, the cube can be rotated, scaled and translated by applying any  ```transform```, i.e.: ```style="transform: rotateX(-15deg)"```.
 
 ```html
@@ -118,6 +124,9 @@ Also, the cube can be rotated, scaled and translated by applying any  ```transfo
                 <div class="zoot-c3d-content">
                     <h1>BOTTOM</h1>
                 </div>
+            </div>
+			<!-- Optional Cube's Shadow-->
+			<div class="zoot-c3d-shadow">
             </div>
         </div>
   </div>
@@ -240,6 +249,7 @@ The ```class="zoot-c3d-vs-solid"``` can be added to any [Face](#Face) or [Compon
 
 ## Animations
 Animations modifiers can be applied to components as addiotional classes.
+- [CubeExplode](#CubeExplode)
 - [Invert](#Invert)
 - [Spin](#Spin)
 
@@ -252,6 +262,14 @@ Adds an spin animation to the 3D component by adding the CSS class ```.zoot-c3d-
 </div>
 ```
 
+### CubeExplode
+Adds an explode animation to the Cube by adding the CSS class ```.zoot-c3d-anim-cubeexplode```. Can be applied to [Cube](#Cube) and can be used in combination with [Spin](#Spin) and [Invert](#Invert).
+
+```html
+<div class="zoot-c3d-cube zoot-c3d-anim-spin zoot-c3d-anim-cubeexplode" >
+	<!-- Place up to 6 Faces here -->
+</div>
+```
 
 ### Invert 
 Reverses the animation direction by adding the CSS class ```.zoot-c3d-anim-invert```. Can be applied to any animation.

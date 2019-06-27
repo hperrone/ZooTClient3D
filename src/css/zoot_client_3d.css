@@ -38,6 +38,81 @@ repo: https://github.com/hperrone/ZooTClient3D
     }
 }
 
+@keyframes zoot-c3d-anim-cubeexplode-front-kf {
+    0% {
+        transform: rotateY(0deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateY(0deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-right-kf {
+    0% {
+        transform: rotateY(90deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateY(90deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-back-kf {
+    0% {
+        transform: rotateY(180deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateY(180deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-left-kf {
+    0% {
+        transform: rotateY(-90deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateY(-90deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-top-kf {
+    0% {
+        transform: rotateX(90deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateX(90deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-bottom-kf {
+    0% {
+        transform: rotateX(-90deg) translateZ(.5em);
+    }
+
+    100% {
+        transform: rotateX(-90deg) translateZ(.7em);
+    }
+}
+
+@keyframes zoot-c3d-anim-cubeexplode-shadow-kf {
+    0% {
+        top: 0em;
+        left: 0em;
+        width: 1em;
+        height: 1em;
+    }
+
+    100% {
+        top: -.2em;
+        left: -.2em;
+        width: 1.4em;
+        height: 1.4em;
+    }
+}
 
 .zoot-c3d-anim-spin {
     animation-name: zoot-c3d-anim-spin-kf;
@@ -123,6 +198,56 @@ div.zoot-c3d-face.zoot-c3d-vs-wire {
         /* 3D cube bottom face */
         .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(6) {
             transform: rotateX(-90deg) translateZ(.5em);
+        }
+
+    .zoot-c3d-cube > div.zoot-c3d-shadow {
+        transform: rotateX(-90deg) translateZ(.7em);
+        margin: 0;
+        position: fixed;
+        top: 0em;
+        left: 0em;
+        width: 1em;
+        height: 1em;
+        background-color: rgba(128, 128, 128, .2);
+        box-shadow: 0 0 0.1em 0.05em rgba(128, 128, 128, .2);
+    }
+
+    /* 3D cube explode animation */
+    .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face, .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-shadow {
+        animation-direction: alternate;
+        animation-duration: .8s;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+    }
+
+        /* 3D cube front face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(1) {
+            animation-name:zoot-c3d-anim-cubeexplode-front-kf;
+        }
+        /* 3D cube right face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(2) {
+            animation-name: zoot-c3d-anim-cubeexplode-right-kf;
+        }
+        /* 3D cube back face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(3) {
+            animation-name: zoot-c3d-anim-cubeexplode-back-kf;
+        }
+        /* 3D cube left face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(4) {
+            animation-name: zoot-c3d-anim-cubeexplode-left-kf;
+        }
+        /* 3D cube top face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(5) {
+            animation-name: zoot-c3d-anim-cubeexplode-top-kf;
+        }
+        /* 3D cube bottom face explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-face:nth-of-type(6) {
+            animation-name: zoot-c3d-anim-cubeexplode-bottom-kf;
+        }
+
+        /* 3D cube shadow explode animation */
+        .zoot-c3d-cube.zoot-c3d-anim-cubeexplode > div.zoot-c3d-shadow {
+            animation-name: zoot-c3d-anim-cubeexplode-shadow-kf;
         }
 
     .zoot-c3d-cube.zoot-c3d-vs-wire > div.zoot-c3d-face {
