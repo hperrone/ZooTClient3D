@@ -13,7 +13,7 @@ Add the CSS to your HTML page's ```<head>```:
 
 ```html
 <head>
-  <link rel="stylesheet" type="text/css" href="npm/@zoot/client-3d/css/zoot_client_3d.css">
+  <link rel="stylesheet" type="text/css" href="node_modules/@zoot/client-3d/css/zoot_client_3d.css">
 </head>
 ```
 
@@ -21,28 +21,40 @@ Add 3D components to the document's ```<body>```:
 
 ```html
 <body>
-  <div class="zoot-c3d-container zoot-c3d-anim-spin" style="font-size: 180px">
-    <div class="zoot-c3d-cube">
-      <div class="zoot-c3d-face">
-        <h1>FRONT</h1>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>RIGHT</h1>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>BACK</h1>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>LEFT</h1>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>TOP</h1>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>BOTTOM</h1>
-      </div>
+    <div class="zoot-c3d-container zoot-c3d-anim-spin" style="font-size: 180px;">
+        <div class="zoot-c3d-cube" style="transform: rotateX(-15deg)">
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>FRONT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>RIGHT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>BACK</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>LEFT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>TOP</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>BOTTOM</h1>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </body>
 ```
 
@@ -70,34 +82,42 @@ Renders a 6 [Faces](#Face) cube within a [Container](#Container). The [Cube](#Cu
 - TOP
 - BOTTOM
 
+Also, the cube can be rotated, scaled and translated by applying any  ```transform```, i.e.: ```style="transform: rotateX(-15deg)"```.
+
 ```html
-  <div class="zoot-c3d-container" style="font-size: 180px">
-    <div class="zoot-c3d-cube">
-      <div class="zoot-c3d-face">
-        <h1>FRONT</h1>
-        <p>Put anything here...</p>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>RIGHT</h1>
-        <p>Put anything here...</p>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>BACK</h1>
-        <p>Put anything here...</p>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>LEFT</h1>
-        <p>Put anything here...</p>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>TOP</h1>
-        <p>Put anything here...</p>
-      </div>
-      <div class="zoot-c3d-face">
-        <h1>BOTTOM</h1>
-        <p>Put anything here...</p>
-      </div>
-    </div>
+  <div class="zoot-c3d-container" style="font-size: 180px;">
+        <div class="zoot-c3d-cube" style="transform: rotateX(-15deg)">
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>FRONT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>RIGHT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>BACK</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>LEFT</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>TOP</h1>
+                </div>
+            </div>
+            <div class="zoot-c3d-face zoot-c3d-border">
+                <div class="zoot-c3d-content">
+                    <h1>BOTTOM</h1>
+                </div>
+            </div>
+        </div>
   </div>
 ```
 
@@ -106,7 +126,9 @@ This component is used to define the 3D components' faces.
 
 ```html
       <div class="zoot-c3d-face">
-        <!-- Put anything here... -->
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
       </div>
 ```
 
@@ -118,4 +140,4 @@ This component is used to define the 3D components' faces.
 See also the list of [contributors](../../graphs/contributors) who participated in this project.
   
 ## License
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

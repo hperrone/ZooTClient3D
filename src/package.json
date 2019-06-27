@@ -1,0 +1,25 @@
+{
+  "name": "@zoot/client-3d",
+  "version": "1.0.3",
+  "description": "A set of HTML5/CSS3 3D components for WEB and Mobile development.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hperrone/ZooTClient3D.git"
+  },
+  "keywords": [
+    "html5",
+    "css3",
+    "3D",
+    "ui"
+  ],
+  "author": "Hernan Perrone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hperrone/ZooTClient3D/issues"
+  },
+  "homepage": "https://github.com/hperrone/ZooTClient3D#readme"
+}

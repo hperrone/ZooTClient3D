@@ -1,0 +1,109 @@
+﻿/*****************************************************************************
+ZooT Client 3D
+
+MIT License
+
+Copyright (c) 2019 Hernan Perrone (hperrone)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+repo: https://github.com/hperrone/ZooTClient3D
+****************************************************************************/
+
+/** ANIMATIONS */
+@keyframes zoot-c3d-anim-spin-kf {
+    0% {
+        transform: rotate3d(0, 1, 0, 0deg) scale3d(.75,.75,.75);
+    }
+
+    100% {
+        transform: rotate3d(0, 1, 0, 360deg) scale3d(.75,.75,.75);
+    }
+}
+
+.zoot-c3d-anim-spin {
+    animation-name: zoot-c3d-anim-spin-kf;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.zoot-c3d-container {
+    transform-style: preserve-3d;
+    /*perspective: 10em;*/
+    transform: rotate3d(1, 0, 0, -15deg);
+    text-align: center;
+}
+
+div.zoot-c3d-face {
+    margin: 0;
+    padding: 0.05em;
+    position: fixed;
+    width: 0.90em;
+    height: 0.90em;
+    overflow: hidden;
+    background-color: rgba( 200, 200, 200, .5);
+}
+
+    div.zoot-c3d-face > div.zoot-c3d-content {
+        font-size: 18px;
+    }
+
+div.zoot-c3d-face, div.zoot-c3d-border {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.zoot-c3d-cube {
+    display: inline-block;
+    transform-style: preserve-3d;
+    width: 1em;
+    height: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+    .zoot-c3d-cube > div.zoot-c3d-face {
+    }
+
+        /* 3D cube front face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(1) {
+            transform: rotateY(0deg) translateZ(.5em);
+        }
+        /* 3D cube right face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(2) {
+            transform: rotateY(90deg) translateZ(.5em);
+        }
+        /* 3D cube back face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(3) {
+            transform: rotateY(180deg) translateZ(.5em);
+        }
+        /* 3D cube left face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(4) {
+            transform: rotateY(-90deg) translateZ(.5em);
+        }
+        /* 3D cube top face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(5) {
+            transform: rotateX(90deg) translateZ(.5em);
+        }
+        /* 3D cube bottom face */
+        .zoot-c3d-cube > div.zoot-c3d-face:nth-of-type(6) {
+            transform: rotateX(-90deg) translateZ(.5em);
+        }
