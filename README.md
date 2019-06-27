@@ -1,6 +1,8 @@
 # ZooTClient3D ![npm (scoped)](https://img.shields.io/npm/v/zoot/client-3d.svg)
 A set of HTML5/CSS3 3D components for WEB and Mobile development.
 
+Check a demo [here](https://hperrone.github.io/ZooTClient3D/test/).
+
 ## Getting started
 
 Download and install into your project using NPM:
