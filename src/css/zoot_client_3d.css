@@ -30,11 +30,11 @@ repo: https://github.com/hperrone/ZooTClient3D
 /** ANIMATIONS */
 @keyframes zoot-c3d-anim-spin-kf {
     0% {
-        transform: rotate3d(0, 1, 0, 0deg) scale3d(.75,.75,.75);
+        transform: rotate3d(0, 1, 0, 0deg);
     }
 
     100% {
-        transform: rotate3d(0, 1, 0, 360deg) scale3d(.75,.75,.75);
+        transform: rotate3d(0, 1, 0, 360deg);
     }
 }
 
@@ -50,6 +50,7 @@ repo: https://github.com/hperrone/ZooTClient3D
     /*perspective: 10em;*/
     transform: rotate3d(1, 0, 0, -15deg);
     text-align: center;
+    padding: 0;
 }
 
 div.zoot-c3d-face {
@@ -76,7 +77,7 @@ div.zoot-c3d-face, div.zoot-c3d-border {
     transform-style: preserve-3d;
     width: 1em;
     height: 1em;
-    margin: 0;
+    margin: .35em;
     padding: 0;
 }
 

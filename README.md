@@ -21,8 +21,8 @@ Add 3D components to the document's ```<body>```:
 
 ```html
 <body>
-    <div class="zoot-c3d-container zoot-c3d-anim-spin" style="font-size: 180px;">
-        <div class="zoot-c3d-cube" style="transform: rotateX(-15deg)">
+    <div class="zoot-c3d-container" style="font-size: 180px;">
+        <div class="zoot-c3d-cube zoot-c3d-anim-spin" style="transform: rotateX(-15deg)">
             <div class="zoot-c3d-face zoot-c3d-border">
                 <div class="zoot-c3d-content">
                     <h1>FRONT</h1>

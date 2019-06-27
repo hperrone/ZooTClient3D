@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\css",
+    "\\src\\js",
+    "\\test"
   ],
+  "SelectedNode": "\\src\\css\\zoot_client_3d.css",
   "PreviewInSolutionExplorer": false
 }
