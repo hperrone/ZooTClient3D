@@ -73,7 +73,7 @@ Any 3D component should be placed within a Container.
 #### Size of the 3D component
 The size of the components are internally defined in ```em```, the overall size of the object can be set by defining the font-size of the container (i.e.: ```style="font-size: 180px"```).
 
-## Cube
+### Cube
 Renders a 6 [Faces](#Face) cube within a [Container](#Container). The [Cube](#Cube)'s [Faces](#Face) are assigned in the order they are declared:
 - FRONT
 - RIGHT
@@ -121,7 +121,7 @@ Also, the cube can be rotated, scaled and translated by applying any  ```transfo
   </div>
 ```
 
-## Face
+### Face
 This component is used to define the 3D components' faces.
 
 ```html
@@ -132,8 +132,117 @@ This component is used to define the 3D components' faces.
       </div>
 ```
 
-## Animations
+## Visual modifiers
+- [Transparent](#Transparent)
+- [Wire](#Wire)
+ 
+### Wire
+Make [Faces](#Face) borders visible. 
+The ```class="zoot-c3d-vs-wire"``` can be added to any [Face](#Face) or [Component](#Components) (except for Container) to make the wireframe visible.
 
+```html
+	<div class="zoot-c3d-cube" >
+		<div class="zoot-c3d-face zoot-c3d-vs-wire">
+		<!-- The borders of this face will be visible --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+		<div class="zoot-c3d-face">
+		<!-- The borders of this face will be hidden --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+	</div>
+
+	<div class="zoot-c3d-cube zoot-c3d-vs-wire" >
+		<!-- The borders of all the faces will be visible --> 
+	     
+		<!-- Place up to 6 Faces here -->
+		<div class="zoot-c3d-face">
+			<div class="zoot-c3d-content">
+				<!-- Put anything here... -->
+			</div>
+		</div>
+	</div>
+```
+
+### Transparent
+Make [Faces](#Face) background fully transparent. 
+The ```class="zoot-c3d-vs-transparent"``` can be added to any [Face](#Face) or [Component](#Components) (except for Container) to make the faces transparent.
+
+```html
+	<div class="zoot-c3d-cube" >
+		<div class="zoot-c3d-face zoot-c3d-vs-transparent">
+		<!-- The background of this face will be transparent --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+		<div class="zoot-c3d-face">
+		<!-- The bacground of this face will be default --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+	</div>
+
+	<div class="zoot-c3d-cube zoot-c3d-vs-transparent" >
+		<!-- All the faces' backgrounds will be transparent --> 
+	     
+		<!-- Place up to 6 Faces here -->
+		<div class="zoot-c3d-face">
+			<div class="zoot-c3d-content">
+				<!-- Put anything here... -->
+			</div>
+		</div>
+
+		<!-- .... -->
+	</div>
+```
+
+### Solid
+Make [Faces](#Face) background fully opaque. 
+The ```class="zoot-c3d-vs-solid"``` can be added to any [Face](#Face) or [Component](#Components) (except for Container) to make the faces opaque.
+
+```html
+	<div class="zoot-c3d-cube" >
+		<div class="zoot-c3d-face zoot-c3d-vs-solid">
+		<!-- The background of this face will be opaque --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+		<div class="zoot-c3d-face">
+		<!-- The bacground of this face will be default --> 
+		<div class="zoot-c3d-content">
+			<!-- Put anything here... -->
+		</div>
+		</div>
+	</div>
+
+	<div class="zoot-c3d-cube zoot-c3d-vs-solid" >
+		<!-- All the faces' backgrounds will be opaque --> 
+	     
+		<!-- Place up to 6 Faces here -->
+		<div class="zoot-c3d-face">
+			<div class="zoot-c3d-content">
+				<!-- Put anything here... -->
+			</div>
+		</div>
+
+		<!-- .... -->
+	</div>
+```
+
+## Animations
+Animations modifiers can be applied to components as addiotional classes.
+
+- [Spin](#Spin)
+
+### Spin
+Adds an spin animation to the 3D component. Can be applied to 
 
 ## Authors
 - Hernan Perrone - @hperrone
