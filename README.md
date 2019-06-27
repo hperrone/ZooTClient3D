@@ -1,7 +1,7 @@
 # ZooTClient3D ![npm (scoped)](https://img.shields.io/npm/v/zoot/client-3d.svg)
 A set of HTML5/CSS3 3D components for WEB and Mobile development.
 
-##Getting started
+## Getting started
 
 Download and install into your project using NPM:
 
@@ -46,7 +46,7 @@ Add 3D components to the document's ´´´<body>´´´:
 </body>
 ´´´
 
-##Components
+## Components
 - [Container](#Container)
 - [Cube](#Cube)
 - [Face](#Face)
@@ -63,12 +63,12 @@ The size of the components are internally defined in ´´´em´´´, the overall
 
 ## Cube
 Renders a 6 [Faces](#Face) cube within a [Container](#Container). The [Cube](#Cube)'s [Faces](#Face) are assigned in the order they are declared:
-1. FRONT
-2. RIGHT
-3. BACK
-4. LEFT
-5. TOP
-6. BOTTOM
+   1- FRONT
+   2- RIGHT
+   3- BACK
+   4- LEFT
+   5- TOP
+   6- BOTTOM
 
 ´´´html
   <div class="zoot-c3d-container" style="font-size: 180px">
@@ -101,7 +101,7 @@ Renders a 6 [Faces](#Face) cube within a [Container](#Container). The [Cube](#Cu
   </div>
 ´´´
 
-##Face
+## Face
 This component is used to define the 3D components' faces.
 
 ´´´html
@@ -110,12 +110,12 @@ This component is used to define the 3D components' faces.
       </div>
 ´´´
 
-##Animations
+## Animations
 
 
-##Authors
+## Authors
 - Hernan Perrone - [@hperrone](@hperrone)
 See also the list of [contributors](graphs/contributors) who participated in this project.
   
-##License
+## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
