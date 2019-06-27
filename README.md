@@ -240,11 +240,28 @@ The ```class="zoot-c3d-vs-solid"``` can be added to any [Face](#Face) or [Compon
 
 ## Animations
 Animations modifiers can be applied to components as addiotional classes.
-
+- [Invert](#Invert)
 - [Spin](#Spin)
 
 ### Spin
-Adds an spin animation to the 3D component. Can be applied to 
+Adds an spin animation to the 3D component by adding the CSS class ```.zoot-c3d-anim-spin```. Can be applied to any [Component](#Component).
+
+```html
+<div class="zoot-c3d-cube zoot-c3d-anim-spin zoot-c3d-anim-invert" >
+	<!-- Place up to 6 Faces here -->
+</div>
+```
+
+
+### Invert 
+Reverses the animation direction by adding the CSS class ```.zoot-c3d-anim-invert```. Can be applied to any animation.
+
+```html
+<div class="zoot-c3d-cube zoot-c3d-anim-spin zoot-c3d-anim-invert" >
+	<!-- Place up to 6 Faces here -->
+</div>
+```
+
 
 ## Authors
 - Hernan Perrone - @hperrone

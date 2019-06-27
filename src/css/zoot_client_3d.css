@@ -38,11 +38,17 @@ repo: https://github.com/hperrone/ZooTClient3D
     }
 }
 
+
 .zoot-c3d-anim-spin {
     animation-name: zoot-c3d-anim-spin-kf;
+    animation-direction: normal;
     animation-duration: 5s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+}
+
+.zoot-c3d-anim-invert {
+    animation-direction: reverse;
 }
 
 .zoot-c3d-container {
