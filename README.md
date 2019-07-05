@@ -90,7 +90,7 @@ Additionally, a shadow plane can be added after all the [Faces](#Face):
 	</div>
 ```
 
-Also, the cube can be rotated, scaled and translated by applying any  ```transform```, i.e.: ```style="transform: rotateX(-15deg)"```.
+Also, the cube can be rotated, scaled and translated by applying any ```transform```, i.e.: ```style="transform: rotateX(-15deg)"```.
 
 ```html
   <div class="zoot-c3d-container" style="font-size: 180px;">
