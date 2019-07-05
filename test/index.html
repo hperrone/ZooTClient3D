@@ -488,7 +488,8 @@
                             zoot-c3d-x="0.25" zoot-c3d-y="0.1"
                             zoot-c3d-w="0.5" zoot-c3d-h="0.2" zoot-c3d-d="0.4"
                             zoot-c3d-rotx="-15" zoot-c3d-roty="30"
-                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
+                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }"
+                            ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
                 <zoot-c3d-face-front>
                     FRONT
                 </zoot-c3d-face-front>
@@ -513,7 +514,8 @@
                             zoot-c3d-x="0.75" zoot-c3d-y="0.1"
                             zoot-c3d-w="0.3"
                             zoot-c3d-rotx="-15" zoot-c3d-roty="30"
-                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
+                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }"
+                            ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
                 <zoot-c3d-face-front>
                     FRONT
                 </zoot-c3d-face-front>
