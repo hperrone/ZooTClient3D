@@ -438,6 +438,31 @@ function __zoot_c3d__process_Container(parent, container) {
 }
 
 
+
+function __zoot_c3d__createWrapper(component, elements) {
+    //Lets create an special container <zoot-c3d-priv-wrapper> and move the elements to it
+    //Instantiate the new element and set the proper styling
+    let wrapper = document.createElement('zoot-c3d-priv-wrapper');
+    wrapper.style.transformStyle = "preserve-3d";
+    wrapper.style.width = "100%";
+    wrapper.style.height = "100%";
+    wrapper.style.margin = "0px";
+    wrapper.style.padding = "0px";
+    wrapper.style.top = "0px";
+    wrapper.style.left = "0px";
+    wrapper.style.position = "absolute";
+
+    for (let i = 0; i < elements.length; i++) {
+        //remove the elements from the Component Element and add it to the wrapper
+        component.removeChild(elements[i]);
+        wrapper.appendChild(elements[i]);
+    }
+    //Finally lets append the new Wrapper to the Component Element
+    component.appendChild(wrapper);
+
+    return wrapper;
+}
+
 /**
  * Intializes properties, attributes and functions common to any ZooTC3DFace
  *
@@ -449,21 +474,45 @@ function __zoot_c3d__process_Container(parent, container) {
  * @param {any} face The DOM Element representing this face
  */
 function __zoot_c3d__process_Face(parent, face) {
-    //SET SPECIFIC STYLES FOR CONTAINERS
-    face.style.overflow = 'hidden';
-    if (parent.tagName.toLowerCase() !== 'zoot-c3d-container' && parent.tagName.toLowerCase() !== 'zoot-c3d-root-container') {
-        face.style.position = 'absolute';
-        face.style.display = 'inline-block';
+    //SET SPECIFIC STYLES FOR STANDALONE FACES 
+    if (parent.tagName.toLowerCase() === 'zoot-c3d-container' || parent.tagName.toLowerCase() === 'zoot-c3d-root-container') {
+
+        face.__zoot_c3d__face_wrapper = __zoot_c3d__createWrapper(face, face.childNodes);
+
+
+        //OVERRIDE zoot_c3d_syncPosition()
+        face.zoot_c3d_syncPosition = function () {
+            let pos = face.zoot_c3d_getPosition();
+            let sf = face.zoot_c3d_getComponentSizeFactor();
+
+            face.__zoot_c3d__face_wrapper.style.transformOrigin = "" + pos.pivx * pos.w * sf + "px " + pos.pivy * pos.h * sf + "px " + pos.pivz * pos.d * sf + "px ";
+            face.__zoot_c3d__face_wrapper.style.transform =
+                "rotateX(" + pos.rotx + "deg) "
+                + "rotateY(" + pos.roty + "deg) "
+                + "rotateZ(" + pos.rotz + "deg) ";
+            face.__zoot_c3d__face_wrapper.style.width = "" + (pos.w * sf) + "px";
+            face.__zoot_c3d__face_wrapper.style.height = "" + (pos.h * sf) + "px";
+
+            face.style.transformOrigin = "0px 0px 0px";
+            face.style.transform = "translate3d(" + (pos.x * sf) + "px, " + (pos.y * sf) + "px, " + (pos.z * sf) + "px) ";
+            face.style.width = "" + (pos.w * sf) + "px";
+            face.style.height = "" + (pos.h * sf) + "px";
+        };
+    } else {
+        //SET SPECIFIC STYLES FOR FACES AS SUBCOMPONENTS
+        face.style.overflow = 'hidden';
+
+        //OVERRIDE zoot_c3d_setPostion()
+        let super_setPosition = face.zoot_c3d_setPosition;
+        face.zoot_c3d_setPosition = function (pos, force) {
+            //Only allow changing postion if force is set when Face is a subcomponent of another Component such as Cube or Prism
+            if (force) {
+                super_setPosition(pos, force);
+            }
+        };
+
     }
 
-    //OVERRIDE zoot_c3d_setPostion()
-    let super_setPosition = face.zoot_c3d_setPosition;
-    face.zoot_c3d_setPosition = function (pos, force) {
-        //Only allow changing postion if force is set when Face is a subcomponent of another Component such as Cube or Prism
-        if (force || parent.tagName.toLowerCase() === 'zoot-c3d-container' || parent.tagName.toLowerCase() === 'zoot-c3d-root-container') {
-            super_setPosition(pos, force);
-        }
-    };
 
     //OVERRIDE zoot_c3d_sync()
     let super_sync = face.zoot_c3d_sync;
@@ -473,18 +522,24 @@ function __zoot_c3d__process_Face(parent, face) {
             super_sync();
         }
 
+        //If the face is standalone, the actual face is wrapped
+        let applyStyle = face;
+        if (face.__zoot_c3d__face_wrapper) {
+            applyStyle = face.__zoot_c3d__face_wrapper;
+        }
+
         //Apply any background style defined
         let bkg = face.zoot_c3d_getBackground();
         if (bkg) {
-            face.style.background = bkg;
+            applyStyle.style.background = bkg;
         }
 
         //Apply any wire style defined
         let wire = face.zoot_c3d_getWireframe();
         if (wire) {
-            face.style.borderWidth = "" + wire.width + "px";
-            face.style.borderStyle = wire.style;
-            face.style.borderColor = wire.color;
+            applyStyle.style.borderWidth = "" + wire.width + "px";
+            applyStyle.style.borderStyle = wire.style;
+            applyStyle.style.borderColor = wire.color;
         }
     };
 }
@@ -533,27 +588,8 @@ function __zoot_c3d__process_Prism(parent, prism) {
         }
     }
 
-    //Lets create an special container <zoot-c3d-priv-face-collection> and move the faces to it
-    //Instantiate the new element and set the proper styling
-    let facesContainer = document.createElement('zoot-c3d-priv-face-collection');
-    facesContainer.style.transformStyle = "preserve-3d";
-    facesContainer.style.width = "100%";
-    facesContainer.style.height = "100%";
-    facesContainer.style.margin = "0px";
-    facesContainer.style.padding = "0px";
-    facesContainer.style.top = "0px";
-    facesContainer.style.left = "0px";
-    facesContainer.style.textAlign = "center";
-    facesContainer.style.position = "absolute";
-
-    for (let i = 0; i < faces.length; i++) {
-        //remove the faces from the Prism Element and add it to the special container
-        prism.removeChild(faces[i]);
-        facesContainer.appendChild(faces[i]);
-    }
-    //Finally lets append the new container to the Prism element
-    prism.appendChild(facesContainer);
-
+    //Lets create an special container <zoot-c3d-priv-wrapper> and move the faces to it (all done by the function below)
+    let facesContainer = __zoot_c3d__createWrapper(prism, faces);
 
     //Add missing faces if autoface is enabled
     let autoface = __zoot_c3d__attribute_get(prism, 'zoot-c3d-autoface', 'true') === 'true';
@@ -629,22 +665,22 @@ function __zoot_c3d__process_Prism(parent, prism) {
         //Calculate Face positions everytime, since they can be animated as well.
         let pos = prism.zoot_c3d_getPosition();
         if (prism.__zoot_c3d__face_front) {
-            prism.__zoot_c3d__face_front.zoot_c3d_setPosition({ x: -pos.w / 2, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 0, pivx: 0, pivy: 0, pivz:0 }, true);
+            prism.__zoot_c3d__face_front.zoot_c3d_setPosition({ z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 0, pivx: 0, pivy: 0, pivz:0 }, true);
         }
         if (prism.__zoot_c3d__face_back) {
-            prism.__zoot_c3d__face_back.zoot_c3d_setPosition({ x: -pos.w / 2, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 180, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_back.zoot_c3d_setPosition({ x: -pos.w, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 180, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_right) {
-            prism.__zoot_c3d__face_right.zoot_c3d_setPosition({ x: -pos.d / 2, z: pos.w / 2, w: pos.d, h: pos.h, d: 0, roty: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_right.zoot_c3d_setPosition({ x: -pos.d / 2, z: pos.w, w: pos.d, h: pos.h, d: 0, roty: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_left) {
-            prism.__zoot_c3d__face_left.zoot_c3d_setPosition({ x: -pos.d / 2, z: pos.w / 2, w: pos.d, h: pos.h, d: 0, roty: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_left.zoot_c3d_setPosition({ x: -pos.d / 2, w: pos.d, h: pos.h, d: 0, roty: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_top) {
-            prism.__zoot_c3d__face_top.zoot_c3d_setPosition({ x: -pos.w / 2, y: -pos.d / 2, z: 0, w: pos.w, h: pos.d, d: 0, rotx: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_top.zoot_c3d_setPosition({ y: -pos.d / 2, z: 0, w: pos.w, h: pos.d, d: 0, rotx: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_bottom) {
-            prism.__zoot_c3d__face_bottom.zoot_c3d_setPosition({ x: -pos.w / 2, y: -pos.d / 2, z: pos.h, w: pos.w, h: pos.d, d: 0, rotx: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_bottom.zoot_c3d_setPosition({ y: -pos.d / 2, z: pos.h, w: pos.w, h: pos.d, d: 0, rotx: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
 
         //Call zoot_c3d_sync() for all Prism's children except for faces

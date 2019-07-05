@@ -1,6 +1,6 @@
 {
   "name": "@zoot/client-3d",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A set of HTML5/CSS3 3D components for WEB and Mobile development.",
   "main": "index.js",
   "scripts": {
