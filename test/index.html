@@ -486,7 +486,7 @@
                 component.zoot_c3d_rotate(-event.movementY, event.movementX, 0);
                 component.zoot_c3d_move(event.movementX / sf, event.movementY / sf, 0);
                 component.zoot_c3d_sync();
-            } 
+            }
         }
     </script>
 
@@ -623,5 +623,19 @@
         </zoot-c3d-root-container>
 
     </div>
+
+    <div>
+        <h3>JavaScript Sample</h3>
+        <h4>TILES</h4>
+        <zoot-c3d-root-container style="width:800px; height:800px" zoot-c3d-model-size="800"
+                                 oncontextmenu="return false">
+            <zoot-c3d-root-tiles zoot-c3d-x="0.1" zoot-c3d-y="0.1"
+                           zoot-c3d-w="0.8" oot-c3d-h="0.8"
+                           zoot-c3d-cols="10" zoot-c3d-rows="10">
+
+
+            </zoot-c3d-root-tiles>
+        </zoot-c3d-root-container>
+</div>
 </body>
 </html>

@@ -89,10 +89,14 @@ function __zoot_c3d__attribute_get(element, attrName, defaultValue) {
 function __zoot_c3d__process_Component(parent, component) {
 
     //DEFAULT STYLE INITIALIZATION
-    component.style.padding = 0;
-    component.style.margin = 0;
     component.style.display = 'block';
-    component.style.position = 'absolute';
+
+    if (parent) {
+        //Do not change root container behavior.
+        component.style.padding = 0;
+        component.style.margin = 0;
+        component.style.position = 'absolute';
+    }
     //component.style.top = 0;
     //component.style.left = 0;
     component.style.userSelect = 'none';
