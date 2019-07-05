@@ -77,7 +77,11 @@ function __zoot_c3d__attribute_get(element, attrName, defaultValue) {
  *    zoot_c3d_getTransition() Returns the component's transition. Format {duration: <float>, delay: <float>, timing_function: <CSS transition-timing-function> }
  *    zoot_c3d_getWireframe() Returns component's calculated wireframe definition. (from zoot-c3d-wire-width, zoot-c3d-wire-style and zoot-c3d-wire-color). Format {width: <length>, style: <CSS Border's style>, color: <CSS Color>}
  *    zoot_c3d_sync() Synchronizes attributes zoot-c3d-* to DOM Element styles
+ *    zoot_c3d_syncPosition() Synchronizes positional attributes 'zoot-c3d-*' to DOM Element styles. Called by zoot_c3d_sync(), can be overriden for specific component behaviour.
+ *    
+ *    Actions:
  *    zoot_c3d_rotate(degx, degy, degz) Inclrementally rotates the component
+ *    zoot_c3d_move(dx, dy, dz) Inclrementally moves the component
  *    
  * @param {any} parent DOM Element that is the Container of the Component
  * @param {any} component DOM Element representing this Component
@@ -88,8 +92,9 @@ function __zoot_c3d__process_Component(parent, component) {
     component.style.padding = 0;
     component.style.margin = 0;
     component.style.display = 'block';
-    component.style.top = 0;
-    component.style.left = 0;
+    component.style.position = 'absolute';
+    //component.style.top = 0;
+    //component.style.left = 0;
     component.style.userSelect = 'none';
 
 
@@ -134,7 +139,7 @@ function __zoot_c3d__process_Component(parent, component) {
         if ((ret === 0.0 || isNaN(ret)) && parent) {
             ret = parent.zoot_c3d_getComponentSizeFactor();
         }
-        if ((ret === 0.0 || isNaN(ret))) {
+        if (ret === 0.0 || isNaN(ret)) {
             ret = 1;
         }
         return ret;
@@ -159,8 +164,8 @@ function __zoot_c3d__process_Component(parent, component) {
             rotx: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-rotx', "0")),
             roty: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-roty', "0")),
             rotz: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-rotz', "0")),
-            pivx: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-pivx', "1")),
-            pivy: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-pivy', "1")),
+            pivx: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-pivx', "0.5")),
+            pivy: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-pivy', "0.5")),
             pivz: parseFloat(__zoot_c3d__attribute_get(component, 'zoot-c3d-pivz', "0"))
         };
 
@@ -261,6 +266,30 @@ function __zoot_c3d__process_Component(parent, component) {
 
         return wire;
     };
+
+    /**
+     *  zoot_c3d_syncPosition() 
+     *  Synchronizes positional attributes 'zoot-c3d-*' to DOM Element styles. Called by zoot_c3d_sync(), can be overriden for specific component behaviour.
+     */
+    component.zoot_c3d_syncPosition = function () {
+        let pos = component.zoot_c3d_getPosition();
+        let sf = component.zoot_c3d_getComponentSizeFactor();
+
+        if (parent) {
+            component.style.transformOrigin = "" + (pos.pivx * pos.w) * sf + "px " + (pos.pivy * pos.h) * sf + "px " + (pos.pivz * pos.d) * sf + "px";
+            let transform =
+                "rotateX(" + pos.rotx + "deg) "
+                + "rotateY(" + pos.roty + "deg) "
+                + "rotateZ(" + pos.rotz + "deg) "
+                + "translate3d(" + (pos.x * sf) + "px, " + (pos.y * sf) + "px, " + (pos.z * sf) + "px) "
+                /*+ "scale3d(" + pos.w + ", " + pos.h + ", " + pos.d + ") "*/;
+            component.style.transform = transform;
+            component.style.width = "" + (pos.w * sf) + "px";
+            component.style.height = "" + (pos.h * sf) + "px";
+        } 
+
+    };
+
     /**
      *  zoot_c3d_sync() 
      *  Synchronizes attributes 'zoot-c3d-*' to DOM Element styles
@@ -273,22 +302,32 @@ function __zoot_c3d__process_Component(parent, component) {
         component.style.transitionTimingFunction = transition.timing_function;
         component.style.transitionDuration = "" + transition.duration + "s";
         component.style.transitionDelay = "" + transition.delay + "s";
-
         component.style.transformStyle = 'preserve-3d';
-        if (parent) {
-            component.style.transformOrigin = "" + (pos.pivx * pos.w) * sf + "px " + (pos.pivy * pos.h) * sf + "px " + (pos.pivz * pos.d) * sf + "px";
-            let transform =
-                  "rotateX(" + pos.rotx + "deg) "
-                + "rotateY(" + pos.roty + "deg) "
-                + "rotateZ(" + pos.rotz + "deg) "
-                + "translate3d(" + (pos.x * sf) + "px, " + (pos.y * sf) + "px, " + (pos.z * sf) + "px) "
-                /*+ "scale3d(" + pos.w + ", " + pos.h + ", " + pos.d + ") "*/;
-            console.log(transform);
-            component.style.transform = transform;
-            component.style.width = "" + (pos.w * sf) + "px";
-            component.style.height = "" + (pos.h * sf) + "px";
-        } 
 
+        component.zoot_c3d_syncPosition();
+    };
+
+    /**
+     * zoot_c3d_move()
+     * Incremental movement of the component
+     * 
+     * @param {any} dx delta x
+     * @param {any} dy delta y
+     * @param {any} dz delta z
+     */
+    component.zoot_c3d_move = function (dx, dy, dz) {
+        let mov = {};
+        let currPos = component.zoot_c3d_getPosition();
+        if (dx) {
+            mov.x = currPos.x + dx;
+        }
+        if (dy) {
+            mov.y = currPos.y + dy;
+        }
+        if (dz) {
+            mov.z = currPos.z + dz;
+        }
+        component.zoot_c3d_setPosition(mov);
     };
 
     /**
@@ -315,6 +354,9 @@ function __zoot_c3d__process_Component(parent, component) {
         component.zoot_c3d_setPosition(rot);
     };
 
+
+
+
     switch (component.tagName.toLowerCase()) {
         case 'zoot-c3d-root-container':
         case 'zoot-c3d-container':
@@ -335,7 +377,6 @@ function __zoot_c3d__process_Component(parent, component) {
         case 'zoot-c3d-face-bottom':
             __zoot_c3d__process_Face(parent, component);
             break;
-
     }
 
     component.zoot_c3d_sync();
@@ -410,8 +451,8 @@ function __zoot_c3d__process_Container(parent, container) {
 function __zoot_c3d__process_Face(parent, face) {
     //SET SPECIFIC STYLES FOR CONTAINERS
     face.style.overflow = 'hidden';
-    if (parent) {
-        face.style.position = 'fixed';
+    if (parent.tagName.toLowerCase() !== 'zoot-c3d-container' && parent.tagName.toLowerCase() !== 'zoot-c3d-root-container') {
+        face.style.position = 'absolute';
         face.style.display = 'inline-block';
     }
 
@@ -419,7 +460,7 @@ function __zoot_c3d__process_Face(parent, face) {
     let super_setPosition = face.zoot_c3d_setPosition;
     face.zoot_c3d_setPosition = function (pos, force) {
         //Only allow changing postion if force is set when Face is a subcomponent of another Component such as Cube or Prism
-        if (force || parent.tagName.toLowerCase() === 'zoot-c3d-container' || parent.tagName.toLowerCase() !== 'zoot-c3d-root-container') {
+        if (force || parent.tagName.toLowerCase() === 'zoot-c3d-container' || parent.tagName.toLowerCase() === 'zoot-c3d-root-container') {
             super_setPosition(pos, force);
         }
     };
@@ -454,6 +495,7 @@ function __zoot_c3d__process_Face(parent, face) {
  *
  * TAG: <zoot-c3d-prism>
  * ATTR:
+ *   zoot-c3d-autoface: Boolean enabling/disabling automatically creating faces not defined. Default: true
  * FUNCTIONS:
  * 
  * @param {any} parent The parent DOM Element of this Component
@@ -502,7 +544,7 @@ function __zoot_c3d__process_Prism(parent, prism) {
     facesContainer.style.top = "0px";
     facesContainer.style.left = "0px";
     facesContainer.style.textAlign = "center";
-    facesContainer.style.position = "fixed";
+    facesContainer.style.position = "absolute";
 
     for (let i = 0; i < faces.length; i++) {
         //remove the faces from the Prism Element and add it to the special container
@@ -513,28 +555,96 @@ function __zoot_c3d__process_Prism(parent, prism) {
     prism.appendChild(facesContainer);
 
 
+    //Add missing faces if autoface is enabled
+    let autoface = __zoot_c3d__attribute_get(prism, 'zoot-c3d-autoface', 'true') === 'true';
+    if (autoface) {
+        if (!prism.__zoot_c3d__face_front) {
+            prism.__zoot_c3d__face_front = document.createElement('zoot-c3d-face-front');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_front);
+            faces.push(prism.__zoot_c3d__face_front);
+            facesContainer.appendChild(prism.__zoot_c3d__face_front);
+        }
+
+        if (!prism.__zoot_c3d__face_back) {
+            prism.__zoot_c3d__face_back = document.createElement('zoot-c3d-face-back');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_back);
+            faces.push(prism.__zoot_c3d__face_back);
+            facesContainer.appendChild(prism.__zoot_c3d__face_back);
+        }
+
+        if (!prism.__zoot_c3d__face_left) {
+            prism.__zoot_c3d__face_left = document.createElement('zoot-c3d-face-left');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_left);
+            faces.push(prism.__zoot_c3d__face_left);
+            facesContainer.appendChild(prism.__zoot_c3d__face_left);
+        }
+
+        if (!prism.__zoot_c3d__face_right) {
+            prism.__zoot_c3d__face_right = document.createElement('zoot-c3d-face-right');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_right);
+            faces.push(prism.__zoot_c3d__face_right);
+            facesContainer.appendChild(prism.__zoot_c3d__face_right);
+        }
+
+        if (!prism.__zoot_c3d__face_top) {
+            prism.__zoot_c3d__face_top = document.createElement('zoot-c3d-face-top');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_top);
+            faces.push(prism.__zoot_c3d__face_top);
+            facesContainer.appendChild(prism.__zoot_c3d__face_top);
+        }
+
+        if (!prism.__zoot_c3d__face_bottom) {
+            prism.__zoot_c3d__face_bottom = document.createElement('zoot-c3d-face-bottom');
+            __zoot_c3d__process_Component(prism, prism.__zoot_c3d__face_bottom);
+            faces.push(prism.__zoot_c3d__face_bottom);
+            facesContainer.appendChild(prism.__zoot_c3d__face_bottom);
+        }
+
+    }
+
+    //OVERRIDE zoot_c3d_syncPosition()
+    prism.zoot_c3d_syncPosition = function () {
+        prism.style.position = 'absolute';
+        let pos = prism.zoot_c3d_getPosition();
+        let sf = prism.zoot_c3d_getComponentSizeFactor();
+
+        facesContainer.style.transformOrigin = "" + pos.pivx * pos.w * sf + "px " + pos.pivy * pos.h * sf + "px " + pos.pivz * pos.d * sf + "px ";
+        facesContainer.style.transform =
+            "rotateX(" + pos.rotx + "deg) "
+            + "rotateY(" + pos.roty + "deg) "
+            + "rotateZ(" + pos.rotz + "deg) ";
+        facesContainer.style.width = "" + (pos.w * sf) + "px";
+        facesContainer.style.height = "" + (pos.h * sf) + "px";
+
+        prism.style.transformOrigin = "0px 0px 0px";
+        prism.style.transform = "translate3d(" + (pos.x * sf) + "px, " + (pos.y * sf) + "px, " + (pos.z * sf) + "px) ";
+        prism.style.width = "" + (pos.w * sf) + "px";
+        prism.style.height = "" + (pos.h * sf) + "px";
+
+    };
+
     //OVERRIDE zoot_c3d_sync()
     let super_sync = prism.zoot_c3d_sync;
     prism.zoot_c3d_sync = function () {
         //Calculate Face positions everytime, since they can be animated as well.
         let pos = prism.zoot_c3d_getPosition();
         if (prism.__zoot_c3d__face_front) {
-            prism.__zoot_c3d__face_front.zoot_c3d_setPosition({ z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 0, pivx: 0, pivy: 0, pivz:0 }, true);
+            prism.__zoot_c3d__face_front.zoot_c3d_setPosition({ x: -pos.w / 2, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 0, pivx: 0, pivy: 0, pivz:0 }, true);
         }
         if (prism.__zoot_c3d__face_back) {
-            prism.__zoot_c3d__face_back.zoot_c3d_setPosition({ x: -pos.w, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 180, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_back.zoot_c3d_setPosition({ x: -pos.w / 2, z: pos.d / 2, w: pos.w, h: pos.h, d: 0, roty: 180, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_right) {
-            prism.__zoot_c3d__face_right.zoot_c3d_setPosition({ x: -pos.d / 2 , z: pos.w, w: pos.d, h: pos.h, d: 0, roty: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_right.zoot_c3d_setPosition({ x: -pos.d / 2, z: pos.w / 2, w: pos.d, h: pos.h, d: 0, roty: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_left) {
-            prism.__zoot_c3d__face_left.zoot_c3d_setPosition({ x: -pos.d / 2, z: 0, w: pos.d, h: pos.h, d: 0, roty: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_left.zoot_c3d_setPosition({ x: -pos.d / 2, z: pos.w / 2, w: pos.d, h: pos.h, d: 0, roty: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_top) {
-            prism.__zoot_c3d__face_top.zoot_c3d_setPosition({ y: -pos.d / 2, z: 0, w: pos.w, h: pos.d, d: 0, rotx: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_top.zoot_c3d_setPosition({ x: -pos.w / 2, y: -pos.d / 2, z: 0, w: pos.w, h: pos.d, d: 0, rotx: 90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
         if (prism.__zoot_c3d__face_bottom) {
-            prism.__zoot_c3d__face_bottom.zoot_c3d_setPosition({ y: -pos.d / 2, z: pos.h, w: pos.w, h: pos.d, d: 0, rotx: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
+            prism.__zoot_c3d__face_bottom.zoot_c3d_setPosition({ x: -pos.w / 2, y: -pos.d / 2, z: pos.h, w: pos.w, h: pos.d, d: 0, rotx: -90, pivx: 0, pivy: 0, pivz: 0 }, true);
         }
 
         //Call zoot_c3d_sync() for all Prism's children except for faces

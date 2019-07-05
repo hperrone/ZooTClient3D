@@ -6,7 +6,7 @@
     <title>ZooT Client 3D - Test</title>
 
     <!-- This is proper use in production -->
-    <!-- -->
+    <!-- -- >
     <link rel="stylesheet" type="text/css" href="node_modules/@zoot/client-3d/css/zoot_client_3d.css">
     <script type="text/javascript" src="node_modules/@zoot/client-3d/js/zoot_client_3d.js"></script>
     <!-- -->
@@ -479,62 +479,146 @@
         </div>
     </div>
 
+    <script>
+        function sample_mouseEventHandler(component, event) {
+            if (event.buttons & 1 === 1) {
+                let sf = component.zoot_c3d_getComponentSizeFactor();
+                component.zoot_c3d_rotate(-event.movementY, event.movementX, 0);
+                component.zoot_c3d_move(event.movementX / sf, event.movementY / sf, 0);
+                component.zoot_c3d_sync();
+            } 
+        }
+    </script>
 
     <div>
-        <h5>JavaScript Sample</h5>
-        <h6>Drag the mouse over to move the object </h6>
-        <zoot-c3d-root-container style="width:500px; height:300px" zoot-c3d-model-size="500">
+        <h3>JavaScript Sample</h3>
+        <h4>Drag the mouse over to move the object </h4>
+        <zoot-c3d-root-container style="width:100%; height:500px" zoot-c3d-model-size="500"
+                                 onmousewheel="this.zoot_c3d_scale()" oncontextmenu="return false">
             <zoot-c3d-prism zoot-c3d-wire-width="1" zoot-c3d-background="rgba(50,50,200, 0.7)"
-                            zoot-c3d-x="0.25" zoot-c3d-y="0.1"
+                            zoot-c3d-x="0.1" zoot-c3d-y="0.1"
                             zoot-c3d-w="0.5" zoot-c3d-h="0.2" zoot-c3d-d="0.4"
                             zoot-c3d-rotx="-15" zoot-c3d-roty="30"
-                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }"
+                            zoot-c3d-transition-duration="0.2"
+                            zoot-c3d-transition-timing-function="linear"
+                            onmousemove="sample_mouseEventHandler(this, event);"
                             ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
                 <zoot-c3d-face-front>
-                    FRONT
+                    <div class="zoot-c3d-content ">
+                        <h2>FRONT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-front>
                 <zoot-c3d-face-right>
-                    RIGHT
+                    <div class="zoot-c3d-content ">
+                        <h2>RIGHT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-right>
                 <zoot-c3d-face-back>
-                    BACK
+                    <div class="zoot-c3d-content ">
+                        <h2>BACK</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-back>
                 <zoot-c3d-face-top>
-                    TOP
+                    <div class="zoot-c3d-content ">
+                        <h2>TOP</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-top>
                 <zoot-c3d-face-left>
-                    LEFT
+                    <div class="zoot-c3d-content ">
+                        <h2>LEFT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-left>
                 <zoot-c3d-face-bottom>
-                    BOTTOM
+                    <div class="zoot-c3d-content ">
+                        <h2>BOTTOM</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-bottom>
             </zoot-c3d-prism>
 
-            <zoot-c3d-cube zoot-c3d-wire-width="1" zoot-c3d-background="rgba(230,50,50, 0.7)"
-                            zoot-c3d-x="0.75" zoot-c3d-y="0.1"
-                            zoot-c3d-w="0.3"
-                            zoot-c3d-rotx="-15" zoot-c3d-roty="30"
-                            onmousemove="if (event.buttons & 1 === 1) { this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }"
-                            ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
+            <zoot-c3d-cube zoot-c3d-wire-width="0" zoot-c3d-background="radial-gradient(circle, rgba(238,174,202,.8) 0%, rgba(148,187,233,.8) 100%)"
+                           zoot-c3d-x="0.62" zoot-c3d-y="0.1"
+                           zoot-c3d-w="0.3"
+                           zoot-c3d-rotx="-15" zoot-c3d-roty="30"
+                           zoot-c3d-transition-duration="0.2"
+                           zoot-c3d-transition-timing-function="linear"
+                           onmousemove="sample_mouseEventHandler(this, event);"
+                           ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
                 <zoot-c3d-face-front>
-                    FRONT
+                    <div class="zoot-c3d-content ">
+                        <h2>FRONT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-front>
                 <zoot-c3d-face-right>
-                    RIGHT
+                    <div class="zoot-c3d-content ">
+                        <h2>RIGHT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-right>
                 <zoot-c3d-face-back>
-                    BACK
+                    <div class="zoot-c3d-content ">
+                        <h2>BACK</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-back>
                 <zoot-c3d-face-top>
-                    TOP
+                    <div class="zoot-c3d-content ">
+                        <h2>TOP</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-top>
                 <zoot-c3d-face-left>
-                    LEFT
+                    <div class="zoot-c3d-content ">
+                        <h2>LEFT</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-left>
                 <zoot-c3d-face-bottom>
-                    BOTTOM
+                    <div class="zoot-c3d-content ">
+                        <h2>BOTTOM</h2>
+                        <h6>test</h6>
+                    </div>
                 </zoot-c3d-face-bottom>
             </zoot-c3d-cube>
+
+            <zoot-c3d-cube zoot-c3d-wire-width="1" zoot-c3d-background="linear-gradient(342deg, rgba(34,193,195,.8) 0%, rgba(253,187,45,.8) 100%)"
+                           zoot-c3d-x="1" zoot-c3d-y="0.5"
+                           zoot-c3d-w="0.3"
+                           zoot-c3d-rotx="-15" zoot-c3d-roty="30"
+                           zoot-c3d-transition-duration="0.2"
+                           zoot-c3d-transition-timing-function="linear"
+                           onmousemove="sample_mouseEventHandler(this, event);"
+                           ontouchmove="{ this.zoot_c3d_rotate(-event.movementY, event.movementX, 0); this.zoot_c3d_sync(); }">
+                <zoot-c3d-face-front zoot-c3d-background="radial-gradient(circle, rgba(10,0,184,0.4) 0%, rgba(9,9,121,.6) 35%, rgba(0,212,255,1) 100%)" style="color:white">
+                    <div class="zoot-c3d-content ">
+                        <h2>FRONT</h2>
+                        <h6>test</h6>
+                    </div>
+                </zoot-c3d-face-front>
+            </zoot-c3d-cube>
+
+
+            <zoot-c3d-face zoot-c3d-wire-width="1"
+                           zoot-c3d-background="linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)" style="color:white"
+                           zoot-c3d-x="1.5" zoot-c3d-y="0.5"
+                           zoot-c3d-w="0.3"
+                           zoot-c3d-h="0.25"
+                           zoot-c3d-rotx="15" zoot-c3d-roty="-20"
+                           zoot-c3d-transition-duration="0.2"
+                           zoot-c3d-transition-timing-function="linear"
+                           onmousemove="sample_mouseEventHandler(this, event);">
+                <div class="zoot-c3d-content ">
+                    <h2>SINGLE FACE</h2>
+                    <h6>test</h6>
+                </div>
+
+            </zoot-c3d-face>
 
         </zoot-c3d-root-container>
 

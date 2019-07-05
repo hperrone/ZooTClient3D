@@ -9,6 +9,6 @@
   "author": "Hernan Perrone",
   "license": "MIT",
   "dependencies": {
-    "@zoot/client-3d": "^1.0.8"
+    "@zoot/client-3d": "^1.0.9"
   }
 }

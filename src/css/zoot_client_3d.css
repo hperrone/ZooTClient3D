@@ -126,6 +126,13 @@ repo: https://github.com/hperrone/ZooTClient3D
     animation-direction: reverse;
 }
 
+
+div.zoot-c3d-content {
+    font-size: 18px;
+    opacity: 1;
+    text-align: center;
+}
+
 .zoot-c3d-container {
     transform-style: preserve-3d;
     /*perspective: 10em;*/
